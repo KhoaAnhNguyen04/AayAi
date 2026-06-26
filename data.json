@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "source": "Google Drive",
+    "icon": "googledrive",
+    "folder": "HR Policies",
+    "status": "Active",
+    "indexed": 256,
+    "last_sync": "26 Jun 09:15",
+    "last_result": "Success"
+  },
+  {
+    "id": 2,
+    "source": "Confluence",
+    "icon": "confluence",
+    "folder": "Engineering",
+    "status": "Syncing",
+    "indexed": 1240,
+    "last_sync": "Running...",
+    "last_result": "-"
+  },
+  {
+    "id": 3,
+    "source": "SharePoint",
+    "icon": "microsoftsharepoint",
+    "folder": "SOP",
+    "status": "Error",
+    "indexed": 85,
+    "last_sync": "25 Jun 22:10",
+    "last_result": "Permission Denied"
+  }
+]
