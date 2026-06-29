@@ -10,6 +10,7 @@ export async function initSourcesPage(options = {}) {
   refreshIcons = options.refreshIcons || refreshIcons;
 
   tableData = await fetchSources();
+
   initFiltersUI(tableData);
   bindSourceEvents();
   exposeSourceActions();
@@ -38,6 +39,7 @@ function updateView() {
   const processedData = tableData
     .filter((item) => {
       const folder = String(item.folder || "").toLowerCase();
+
       const matchSearch = folder.includes(searchVal);
       const matchSource = !sourceVal || item.source === sourceVal;
       const matchStatus = !statusVal || item.status === statusVal;
@@ -143,6 +145,11 @@ async function persistSources() {
   updateView();
 }
 
+function isDisabledStatus(status) {
+  const normalizedStatus = String(status || "").toLowerCase();
+  return normalizedStatus === "disable" || normalizedStatus === "disabled";
+}
+
 function exposeSourceActions() {
   window.app = {
     toggleInlineAdd() {
@@ -156,11 +163,12 @@ function exposeSourceActions() {
       document
         .getElementById("inlineAddTriggerRow")
         ?.classList.remove("hidden");
-
       document.getElementById("inlineAddInputRow")?.classList.add("hidden");
 
       const input = document.getElementById("inlineUrlInput");
       if (input) input.value = "";
+
+      hideInlineAddError();
     },
 
     async confirmInlineAdd() {
@@ -176,7 +184,7 @@ function exposeSourceActions() {
 
       if (!parsedData) {
         showInlineAddError(
-          "URL không thuộc loại hệ thống hỗ trợ (Google Drive, Confluence, GitHub, SharePoint).",
+          "URL không thuộc loại hệ thống hỗ trợ: Google Drive, Confluence, GitHub, SharePoint.",
         );
         return;
       }
@@ -195,14 +203,14 @@ function exposeSourceActions() {
 
         if (newNorm.startsWith(existingNorm + "/")) {
           showInlineAddError(
-            `URL này trùng chéo vì là thư mục CON của nguồn: ${item.source} (${item.folder}).`,
+            `URL này trùng chéo vì là thư mục con của nguồn: ${item.source} (${item.folder}).`,
           );
           return;
         }
 
         if (existingNorm.startsWith(newNorm + "/")) {
           showInlineAddError(
-            `URL này trùng chéo vì là thư mục CHA của nguồn đã tạo: ${item.source} (${item.folder}).`,
+            `URL này trùng chéo vì là thư mục cha của nguồn đã tạo: ${item.source} (${item.folder}).`,
           );
           return;
         }
@@ -250,7 +258,15 @@ function exposeSourceActions() {
 
     triggerStopSync(id) {
       const item = tableData.find((i) => Number(i.id) === Number(id));
-      if (item) StopSyncModal.show(item);
+
+      if (!item) return;
+
+      if (isDisabledStatus(item.status)) {
+        alert("Source này đã Disable rồi.");
+        return;
+      }
+
+      StopSyncModal.show(item);
     },
 
     hideStopSyncModal() {
@@ -298,9 +314,4 @@ function exposeSourceActions() {
       DeleteModal.hide();
     },
   };
-}
-
-function isDisabledStatus(status) {
-  const normalizedStatus = String(status || "").toLowerCase();
-  return normalizedStatus === "disable" || normalizedStatus === "disabled";
 }

@@ -1,28 +1,16 @@
 // static/app.js
 import { initSourcesPage } from "./pages/sourcesPage.js";
-import { initDuplicatesPage } from "./pages/duplicatesPage.js";
-import { initConfigurationPage } from "./pages/configurationsPage.js";
 
 function refreshIcons() {
-  setTimeout(() => {
-    if (window.lucide) window.lucide.createIcons();
-  }, 0);
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 }
 
-async function initApp() {
-  if (document.getElementById("configurationTableBody")) {
-    await initConfigurationPage({ refreshIcons });
-    return;
-  }
-
-  if (document.getElementById("duplicateTableBody")) {
-    await initDuplicatesPage({ refreshIcons });
-    return;
-  }
-
+document.addEventListener("DOMContentLoaded", async () => {
   if (document.getElementById("tableBody")) {
     await initSourcesPage({ refreshIcons });
   }
-}
 
-document.addEventListener("DOMContentLoaded", initApp);
+  refreshIcons();
+});

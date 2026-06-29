@@ -16,18 +16,18 @@ export function renderTable(tableData = []) {
   const tbody = document.getElementById("tableBody");
   if (!tbody) return;
 
-  if (!Array.isArray(tableData) || tableData.length === 0) {
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="7" class="px-6 py-8 text-center text-slate-500">
-          Không có dữ liệu
-        </td>
-      </tr>
-    `;
-    return;
-  }
+  const dataRows =
+    Array.isArray(tableData) && tableData.length > 0
+      ? tableData.map(renderSourceRow).join("")
+      : `
+        <tr>
+          <td colspan="7" class="px-6 py-8 text-center text-slate-500">
+            Không có dữ liệu
+          </td>
+        </tr>
+      `;
 
-  tbody.innerHTML = tableData.map(renderSourceRow).join("");
+  tbody.innerHTML = dataRows + renderInlineAddRows();
 }
 
 function renderSourceRow(item) {
@@ -67,6 +67,60 @@ function renderSourceRow(item) {
 
       <td class="px-6 py-4 text-slate-400">
         ${renderSourceActionButtons(item)}
+      </td>
+    </tr>
+  `;
+}
+
+function renderInlineAddRows() {
+  return `
+    <tr id="inlineAddTriggerRow" class="bg-slate-50/60">
+      <td colspan="7" class="px-6 py-4">
+        <button
+          onclick="window.app.toggleInlineAdd()"
+          class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+        >
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          Add Knowledge Source
+        </button>
+      </td>
+    </tr>
+
+    <tr id="inlineAddInputRow" class="hidden bg-slate-50/60">
+      <td colspan="7" class="px-6 py-4">
+        <div class="flex flex-col gap-3">
+          <div class="flex flex-col md:flex-row gap-3">
+            <input
+              id="inlineUrlInput"
+              type="text"
+              placeholder="Paste source URL: Google Drive, Confluence, GitHub, SharePoint..."
+              class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+            >
+
+            <div class="flex gap-2">
+              <button
+                onclick="window.app.confirmInlineAdd()"
+                class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+              >
+                Add
+              </button>
+
+              <button
+                onclick="window.app.cancelInlineAdd()"
+                class="px-4 py-2 text-sm font-medium bg-white border border-slate-200 text-slate-600 hover:text-slate-900 rounded-lg"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+
+          <div
+            id="inlineAddError"
+            class="hidden px-3 py-2 text-sm rounded-lg bg-red-50 text-red-700 border border-red-100"
+          >
+            <span id="inlineErrorText"></span>
+          </div>
+        </div>
       </td>
     </tr>
   `;

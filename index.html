@@ -11,103 +11,252 @@
     <link rel="stylesheet" href="./static/styles.css" />
   </head>
 
-  <body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
-    <div class="min-h-screen flex items-center justify-center px-6">
-      <div class="max-w-3xl w-full">
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-8">
-          <div class="flex items-center gap-3 mb-6">
-            <div
-              class="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center"
-            >
-              <i data-lucide="bot" class="w-6 h-6"></i>
+  <body
+    class="bg-slate-50 text-slate-800 font-sans h-screen flex overflow-hidden"
+  >
+    <aside
+      class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0"
+    >
+      <div class="p-6 border-b border-slate-200">
+        <h1 class="text-xl font-bold text-slate-900 flex items-center gap-2.5">
+          <i data-lucide="box" class="w-5 h-5 text-blue-600"></i>
+          <span>System UI</span>
+        </h1>
+      </div>
+
+      <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+        <a
+          href="#"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group"
+        >
+          <i data-lucide="bar-chart-3" class="w-4 h-4 text-slate-400"></i>
+          Statistic
+        </a>
+
+        <a
+          href="./index.html"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg bg-blue-50 text-blue-700 border border-blue-200 transition"
+        >
+          <i data-lucide="database" class="w-4 h-4 text-blue-600"></i>
+          Data Sources
+        </a>
+
+        <a
+          href="#"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group"
+        >
+          <i data-lucide="settings-2" class="w-4 h-4 text-slate-400"></i>
+          Configuration
+        </a>
+
+        <a
+          href="#"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group"
+        >
+          <i data-lucide="copy-check" class="w-4 h-4 text-slate-400"></i>
+          Duplicate Documents
+        </a>
+
+        <a
+          href="#"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group"
+        >
+          <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i>
+          Document Source
+        </a>
+
+        <a
+          href="#"
+          class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group"
+        >
+          <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
+          History
+        </a>
+      </nav>
+
+      <div class="p-4 border-t border-slate-200">
+        <div
+          class="flex justify-center items-center gap-2 px-4 py-2 bg-slate-200 text-slate-500 text-sm font-semibold rounded-lg"
+        >
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          Chatbot chỉ chạy local
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-y-auto bg-slate-50">
+      <div class="p-8 max-w-7xl mx-auto w-full space-y-8">
+        <div>
+          <h2 class="text-2xl font-semibold text-slate-900">
+            Data Sources & Configuration
+          </h2>
+          <p class="text-sm text-slate-500 mt-1">
+            Quản lý nguồn dữ liệu tích hợp vào hệ thống AI.
+          </p>
+        </div>
+
+        <section
+          class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden"
+        >
+          <div class="p-5 border-b border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <div class="relative">
+                <i
+                  data-lucide="search"
+                  class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                ></i>
+                <input
+                  id="searchInput"
+                  type="text"
+                  placeholder="Search folder name..."
+                  class="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                />
+              </div>
+
+              <select
+                id="filterSource"
+                class="px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              >
+                <option value="">Tất cả Source</option>
+              </select>
+
+              <select
+                id="filterStatus"
+                class="px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              >
+                <option value="">Tất cả Status</option>
+              </select>
+
+              <select
+                id="filterResult"
+                class="px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              >
+                <option value="">Tất cả Result</option>
+              </select>
             </div>
-
-            <div>
-              <h1 class="text-2xl font-semibold text-slate-900">
-                AI Knowledge Admin
-              </h1>
-              <p class="text-sm text-slate-500 mt-1">
-                Trang quản trị nguồn dữ liệu và cấu hình hệ thống.
-              </p>
-            </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <a
-              href="./templates/sources.html"
-              class="group border border-slate-200 rounded-xl p-5 hover:border-blue-300 hover:bg-blue-50 transition"
-            >
-              <div
-                class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mb-4"
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead
+                class="bg-slate-50 border-b border-slate-200 text-slate-500"
               >
-                <i data-lucide="database" class="w-5 h-5"></i>
-              </div>
+                <tr>
+                  <th class="px-6 py-3 font-medium">Source</th>
+                  <th class="px-6 py-3 font-medium">Folder Name</th>
+                  <th class="px-6 py-3 font-medium">Status</th>
+                  <th class="px-6 py-3 font-medium">Số tài liệu đã index</th>
+                  <th class="px-6 py-3 font-medium">Last Sync</th>
+                  <th class="px-6 py-3 font-medium">Last Result</th>
+                  <th class="px-6 py-3 font-medium">Action</th>
+                </tr>
+              </thead>
 
-              <h2
-                class="font-semibold text-slate-900 group-hover:text-blue-700"
-              >
-                Sources
-              </h2>
-
-              <p class="text-sm text-slate-500 mt-2">
-                Quản lý các nguồn tài liệu đang tích hợp vào hệ thống.
-              </p>
-            </a>
-
-            <a
-              href="./templates/configurations.html"
-              class="group border border-slate-200 rounded-xl p-5 hover:border-purple-300 hover:bg-purple-50 transition"
-            >
-              <div
-                class="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mb-4"
-              >
-                <i data-lucide="settings" class="w-5 h-5"></i>
-              </div>
-
-              <h2
-                class="font-semibold text-slate-900 group-hover:text-purple-700"
-              >
-                Configuration
-              </h2>
-
-              <p class="text-sm text-slate-500 mt-2">
-                Cấu hình thời gian đồng bộ theo từng nguồn dữ liệu.
-              </p>
-            </a>
-
-            <a
-              href="./templates/duplicates.html"
-              class="group border border-slate-200 rounded-xl p-5 hover:border-amber-300 hover:bg-amber-50 transition"
-            >
-              <div
-                class="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center mb-4"
-              >
-                <i data-lucide="copy" class="w-5 h-5"></i>
-              </div>
-
-              <h2
-                class="font-semibold text-slate-900 group-hover:text-amber-700"
-              >
-                Duplicates
-              </h2>
-
-              <p class="text-sm text-slate-500 mt-2">
-                Kiểm tra và xử lý các tài liệu bị trùng trong hệ thống.
-              </p>
-            </a>
+              <tbody id="tableBody" class="divide-y divide-slate-100"></tbody>
+            </table>
           </div>
+        </section>
+      </div>
+    </main>
 
-          <div class="mt-8 pt-6 border-t border-slate-200">
-            <p class="text-xs text-slate-400">
-              GitHub Pages entry file: <code>index.html</code>
-            </p>
-          </div>
+    <div
+      id="editModal"
+      class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center px-4"
+    >
+      <div
+        id="editModalContent"
+        class="bg-white w-full max-w-md rounded-xl shadow-xl scale-95 opacity-0 transition"
+      >
+        <div class="p-6 border-b border-slate-200">
+          <h3 class="text-lg font-semibold text-slate-900">Edit Source</h3>
+          <p id="editModalText" class="text-sm text-slate-500 mt-1"></p>
+        </div>
+
+        <div class="p-6">
+          <input
+            id="editFolderInput"
+            type="text"
+            class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+          />
+        </div>
+
+        <div class="p-6 border-t border-slate-200 flex justify-end gap-3">
+          <button
+            onclick="window.app.hideEditModal()"
+            class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+          >
+            Cancel
+          </button>
+          <button
+            onclick="window.app.confirmEdit()"
+            class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
 
-    <script>
-      lucide.createIcons();
-    </script>
+    <div
+      id="stopSyncModal"
+      class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center px-4"
+    >
+      <div
+        id="stopSyncModalContent"
+        class="bg-white w-full max-w-md rounded-xl shadow-xl scale-95 opacity-0 transition"
+      >
+        <div class="p-6 border-b border-slate-200">
+          <h3 class="text-lg font-semibold text-slate-900">Disable Sync</h3>
+          <p id="stopSyncModalText" class="text-sm text-slate-500 mt-1"></p>
+        </div>
+
+        <div class="p-6 border-t border-slate-200 flex justify-end gap-3">
+          <button
+            onclick="window.app.hideStopSyncModal()"
+            class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+          >
+            Cancel
+          </button>
+          <button
+            onclick="window.app.confirmStopSync()"
+            class="px-4 py-2 text-sm font-medium bg-amber-500 hover:bg-amber-600 text-white rounded-lg"
+          >
+            Disable
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="deleteModal"
+      class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center px-4"
+    >
+      <div
+        id="deleteModalContent"
+        class="bg-white w-full max-w-md rounded-xl shadow-xl scale-95 opacity-0 transition"
+      >
+        <div class="p-6 border-b border-slate-200">
+          <h3 class="text-lg font-semibold text-slate-900">Delete Source</h3>
+          <p id="deleteModalText" class="text-sm text-slate-500 mt-1"></p>
+        </div>
+
+        <div class="p-6 border-t border-slate-200 flex justify-end gap-3">
+          <button
+            onclick="window.app.hideDeleteModal()"
+            class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+          >
+            Cancel
+          </button>
+          <button
+            onclick="window.app.confirmDelete()"
+            class="px-4 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./static/app.js"></script>
   </body>
 </html>
