@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Knowledge Admin</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="./static/styles.css" />
+  </head>
+
+  <body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+    <div class="min-h-screen flex items-center justify-center px-6">
+      <div class="max-w-3xl w-full">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div
+              class="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center"
+            >
+              <i data-lucide="bot" class="w-6 h-6"></i>
+            </div>
+
+            <div>
+              <h1 class="text-2xl font-semibold text-slate-900">
+                AI Knowledge Admin
+              </h1>
+              <p class="text-sm text-slate-500 mt-1">
+                Trang quản trị nguồn dữ liệu và cấu hình hệ thống.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a
+              href="./templates/sources.html"
+              class="group border border-slate-200 rounded-xl p-5 hover:border-blue-300 hover:bg-blue-50 transition"
+            >
+              <div
+                class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mb-4"
+              >
+                <i data-lucide="database" class="w-5 h-5"></i>
+              </div>
+
+              <h2
+                class="font-semibold text-slate-900 group-hover:text-blue-700"
+              >
+                Sources
+              </h2>
+
+              <p class="text-sm text-slate-500 mt-2">
+                Quản lý các nguồn tài liệu đang tích hợp vào hệ thống.
+              </p>
+            </a>
+
+            <a
+              href="./templates/configurations.html"
+              class="group border border-slate-200 rounded-xl p-5 hover:border-purple-300 hover:bg-purple-50 transition"
+            >
+              <div
+                class="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center mb-4"
+              >
+                <i data-lucide="settings" class="w-5 h-5"></i>
+              </div>
+
+              <h2
+                class="font-semibold text-slate-900 group-hover:text-purple-700"
+              >
+                Configuration
+              </h2>
+
+              <p class="text-sm text-slate-500 mt-2">
+                Cấu hình thời gian đồng bộ theo từng nguồn dữ liệu.
+              </p>
+            </a>
+
+            <a
+              href="./templates/duplicates.html"
+              class="group border border-slate-200 rounded-xl p-5 hover:border-amber-300 hover:bg-amber-50 transition"
+            >
+              <div
+                class="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center mb-4"
+              >
+                <i data-lucide="copy" class="w-5 h-5"></i>
+              </div>
+
+              <h2
+                class="font-semibold text-slate-900 group-hover:text-amber-700"
+              >
+                Duplicates
+              </h2>
+
+              <p class="text-sm text-slate-500 mt-2">
+                Kiểm tra và xử lý các tài liệu bị trùng trong hệ thống.
+              </p>
+            </a>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-slate-200">
+            <p class="text-xs text-slate-400">
+              GitHub Pages entry file: <code>index.html</code>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

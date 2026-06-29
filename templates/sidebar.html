@@ -14,23 +14,26 @@ text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group" %}
   </div>
 
   <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
-    <a href="#" class="{{ normal_class }}">
-      <i
-        data-lucide="bar-chart-3"
-        class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition"
-      ></i>
-      Statistic
-    </a>
-
     <a
-      href="/config"
-      class="{{ active_class if request.url.path == '/config' else normal_class }}"
+      href="/sources"
+      class="{{ active_class if request.url.path in ['/', '/sources', '/datasources', '/data-sources'] else normal_class }}"
     >
       <i
         data-lucide="database"
-        class="w-4 h-4 {% if request.url.path == '/config' %}text-blue-600{% else %}text-slate-400 group-hover:text-slate-600{% endif %} transition"
+        class="w-4 h-4 {% if request.url.path in ['/', '/sources', '/datasources', '/data-sources'] %}text-blue-600{% else %}text-slate-400 group-hover:text-slate-600{% endif %} transition"
       ></i>
       Data Sources
+    </a>
+
+    <a
+      href="/configurations"
+      class="{{ active_class if request.url.path in ['/config', '/configuration', '/configurations'] else normal_class }}"
+    >
+      <i
+        data-lucide="settings-2"
+        class="w-4 h-4 {% if request.url.path in ['/config', '/configuration', '/configurations'] %}text-blue-600{% else %}text-slate-400 group-hover:text-slate-600{% endif %} transition"
+      ></i>
+      Configuration
     </a>
 
     <a
@@ -42,22 +45,6 @@ text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group" %}
         class="w-4 h-4 {% if request.url.path == '/duplicates' %}text-blue-600{% else %}text-slate-400 group-hover:text-slate-600{% endif %} transition"
       ></i>
       Duplicate Documents
-    </a>
-
-    <a href="#" class="{{ normal_class }}">
-      <i
-        data-lucide="file-text"
-        class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition"
-      ></i>
-      Document Source
-    </a>
-
-    <a href="#" class="{{ normal_class }}">
-      <i
-        data-lucide="clock"
-        class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition"
-      ></i>
-      History
     </a>
   </nav>
 

@@ -1,10 +1,10 @@
 // static/pages/duplicatesPage.js
 import { fetchDuplicateGroups, saveDuplicateGroups } from "../api.js";
 import {
-  initDuplicateFiltersUI,
   renderDuplicateStats,
+  initDuplicateFiltersUI,
   renderDuplicateTable,
-} from "../ui.js";
+} from "../ui/duplicatesUi.js";
 
 let duplicateGroups = [];
 let expandedDuplicateGroups = new Set();

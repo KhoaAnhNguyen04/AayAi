@@ -1,6 +1,6 @@
 // static/pages/sourcesPage.js
 import { fetchSources, saveSources } from "../api.js";
-import { renderTable, initFiltersUI } from "../ui.js";
+import { renderTable, initFiltersUI } from "../ui/sourcesUi.js";
 import { DeleteModal, EditModal, StopSyncModal } from "../modal.js";
 
 let tableData = [];
@@ -123,16 +123,6 @@ function parseKnowledgeSourceUrl(urlStr) {
   }
 
   return null;
-}
-
-function formatCurrentSyncTime() {
-  return new Date().toLocaleString("vi-VN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
 }
 
 function showInlineAddError(message) {
@@ -258,47 +248,6 @@ function exposeSourceActions() {
       EditModal.hide();
     },
 
-    async triggerRunSync(id) {
-      const item = tableData.find((i) => Number(i.id) === Number(id));
-      if (!item) return;
-
-      const status = String(item.status || "").toLowerCase();
-
-      if (status === "disable") {
-        alert(
-          "Không thể chạy đồng bộ vì nguồn tài liệu đang ở trạng thái Disable.",
-        );
-        return;
-      }
-
-      if (status === "syncing") {
-        alert("Nguồn tài liệu này đang được đồng bộ.");
-        return;
-      }
-
-      item.status = "Syncing";
-      item.last_sync = "Đang đồng bộ";
-      item.last_result = "Pending";
-
-      await persistSources();
-
-      setTimeout(async () => {
-        const currentItem = tableData.find((i) => Number(i.id) === Number(id));
-        if (!currentItem) return;
-
-        const currentIndexed = Number.parseInt(currentItem.indexed, 10) || 0;
-        const addedDocs =
-          currentIndexed === 0 ? 12 : Math.floor(Math.random() * 6) + 1;
-
-        currentItem.indexed = String(currentIndexed + addedDocs);
-        currentItem.status = "Active";
-        currentItem.last_sync = formatCurrentSyncTime();
-        currentItem.last_result = "Success";
-
-        await persistSources();
-      }, 900);
-    },
-
     triggerStopSync(id) {
       const item = tableData.find((i) => Number(i.id) === Number(id));
       if (item) StopSyncModal.show(item);
@@ -325,8 +274,8 @@ function exposeSourceActions() {
     triggerDelete(id) {
       const item = tableData.find((i) => Number(i.id) === Number(id));
 
-      if (item && String(item.status || "").toLowerCase() !== "disable") {
-        alert("Cảnh báo: Chỉ có thể xoá thư mục đang ở trạng thái Disable!");
+      if (item && !isDisabledStatus(item.status)) {
+        alert("Chỉ có thể xoá source đang ở trạng thái Disable.");
         return;
       }
 
@@ -349,4 +298,9 @@ function exposeSourceActions() {
       DeleteModal.hide();
     },
   };
+}
+
+function isDisabledStatus(status) {
+  const normalizedStatus = String(status || "").toLowerCase();
+  return normalizedStatus === "disable" || normalizedStatus === "disabled";
 }

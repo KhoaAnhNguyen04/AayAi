@@ -1,6 +1,7 @@
 // static/app.js
 import { initSourcesPage } from "./pages/sourcesPage.js";
 import { initDuplicatesPage } from "./pages/duplicatesPage.js";
+import { initConfigurationPage } from "./pages/configurationsPage.js";
 
 function refreshIcons() {
   setTimeout(() => {
@@ -9,6 +10,11 @@ function refreshIcons() {
 }
 
 async function initApp() {
+  if (document.getElementById("configurationTableBody")) {
+    await initConfigurationPage({ refreshIcons });
+    return;
+  }
+
   if (document.getElementById("duplicateTableBody")) {
     await initDuplicatesPage({ refreshIcons });
     return;

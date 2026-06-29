@@ -1,108 +1,74 @@
-from pathlib import Path
-import json
 import os
+import json
 
-from dotenv import load_dotenv
-from fastapi import Body, FastAPI, Form, Request
-from fastapi.responses import RedirectResponse
+from fastapi import FastAPI, Body
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from chainlit.utils import mount_chainlit
+from starlette.requests import Request
 
-load_dotenv()
+DATA_FILE = "data.json"
 
 app = FastAPI()
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
 templates = Jinja2Templates(directory="templates")
-
-system_config = {
-    "api_key": os.getenv("OPENAI_API_KEY", ""),
-    "prompt": os.getenv("SYSTEM_PROMPT", "Bạn là trợ lý nội bộ chuyên nghiệp."),
-}
-
-BASE_DIR = Path(__file__).resolve().parent
-DATA_FILE = BASE_DIR / "data.json"
-
-
-def get_empty_data():
-    return {
-        "sources": [],
-        "duplicate_groups": [],
-    }
 
 
 def read_data():
-    if not DATA_FILE.exists():
-        return get_empty_data()
-
-    try:
-        with DATA_FILE.open("r", encoding="utf-8") as f:
-            raw_data = json.load(f)
-    except json.JSONDecodeError:
-        return get_empty_data()
-
-    # Hỗ trợ data.json format cũ: [...]
-    if isinstance(raw_data, list):
+    if not os.path.exists(DATA_FILE):
         return {
-            "sources": raw_data,
+            "sources": [],
             "duplicate_groups": [],
+            "source_sync_configs": [],
         }
 
-    # Hỗ trợ data.json format mới: { sources: [], duplicate_groups: [] }
-    if isinstance(raw_data, dict):
-        data = get_empty_data()
-        data["sources"] = raw_data.get("sources", [])
-        data["duplicate_groups"] = raw_data.get("duplicate_groups", [])
-        return data
+    with open(DATA_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-    return get_empty_data()
+    if isinstance(data, list):
+        return {
+            "sources": data,
+            "duplicate_groups": [],
+            "source_sync_configs": [],
+        }
+
+    data.setdefault("sources", [])
+    data.setdefault("duplicate_groups", [])
+    data.setdefault("source_sync_configs", [])
+
+    return data
 
 
 def write_data(data):
-    DATA_FILE.write_text(
-        json.dumps(data, ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-@app.get("/")
-def read_root():
-    return RedirectResponse(url="/config")
+@app.get("/", response_class=HTMLResponse)
+@app.get("/sources", response_class=HTMLResponse)
+@app.get("/datasources", response_class=HTMLResponse)
+@app.get("/data-sources", response_class=HTMLResponse)
+def sources_page(request: Request):
+    return templates.TemplateResponse("sources.html", {"request": request})
 
 
-@app.get("/config")
-def get_config(request: Request):
-    return templates.TemplateResponse(
-        "config.html",
-        {
-            "request": request,
-            "api_key": system_config["api_key"],
-            "prompt": system_config["prompt"],
-        },
-    )
+@app.get("/duplicates", response_class=HTMLResponse)
+def duplicates_page(request: Request):
+    return templates.TemplateResponse("duplicates.html", {"request": request})
 
 
-@app.get("/duplicates")
-def get_duplicates_page(request: Request):
-    return templates.TemplateResponse(
-        "duplicates.html",
-        {
-            "request": request,
-        },
-    )
-
-
-@app.post("/save-config")
-def save_config(api_key: str = Form(...), prompt: str = Form(...)):
-    system_config["api_key"] = api_key
-    system_config["prompt"] = prompt
-    return RedirectResponse(url="/config", status_code=303)
-
+@app.get("/config", response_class=HTMLResponse)
+@app.get("/configuration", response_class=HTMLResponse)
+@app.get("/configurations", response_class=HTMLResponse)
+def configurations_page(request: Request):
+    return templates.TemplateResponse("configurations.html", {"request": request})
 
 @app.get("/api/sources")
 def get_sources():
     data = read_data()
-    return data["sources"]
+    return data.get("sources", [])
 
 
 @app.post("/api/sources")
@@ -120,7 +86,7 @@ async def save_sources(sources: list = Body(...)):
 @app.get("/api/duplicates")
 def get_duplicate_groups():
     data = read_data()
-    return data["duplicate_groups"]
+    return data.get("duplicate_groups", [])
 
 
 @app.post("/api/duplicates")
@@ -135,4 +101,91 @@ async def save_duplicate_groups(duplicate_groups: list = Body(...)):
     }
 
 
-mount_chainlit(app=app, target="chat.py", path="/chat")
+@app.get("/api/source-sync-configs")
+def get_source_sync_configs():
+    data = read_data()
+
+    sources = data.get("sources", [])
+    configs = data.get("source_sync_configs", [])
+
+    configs_by_source_id = {
+        int(config.get("source_id")): config
+        for config in configs
+        if config.get("source_id") is not None
+    }
+
+    result = []
+
+    for source in sources:
+        source_id = source.get("id")
+        if source_id is None:
+            continue
+
+        config = configs_by_source_id.get(int(source_id), {})
+
+        result.append({
+            "source_id": source_id,
+            "source": source.get("source", "-"),
+            "icon": source.get("icon", "code"),
+            "folder": source.get("folder", "-"),
+            "source_status": source.get("status", "-"),
+            "last_sync": source.get("last_sync", "-"),
+            "last_result": source.get("last_result", "-"),
+            "sync_enabled": config.get("sync_enabled", True),
+            "interval_value": config.get("interval_value", 6),
+            "interval_unit": config.get("interval_unit", "hours"),
+            "last_run_at": config.get("last_run_at"),
+            "updated_at": config.get("updated_at", "-"),
+        })
+
+    return result
+
+
+@app.post("/api/source-sync-configs")
+async def save_source_sync_configs(source_sync_configs: list = Body(...)):
+    data = read_data()
+
+    valid_source_ids = {
+        int(source.get("id"))
+        for source in data.get("sources", [])
+        if source.get("id") is not None
+    }
+
+    cleaned_configs = []
+
+    for config in source_sync_configs:
+        source_id = config.get("source_id")
+
+        if source_id is None:
+            continue
+
+        source_id = int(source_id)
+
+        if source_id not in valid_source_ids:
+            continue
+
+        interval_value = int(config.get("interval_value") or 1)
+        interval_unit = config.get("interval_unit") or "hours"
+
+        if interval_value < 1:
+            interval_value = 1
+
+        if interval_unit not in ["minutes", "hours", "days"]:
+            interval_unit = "hours"
+
+        cleaned_configs.append({
+            "source_id": source_id,
+            "sync_enabled": bool(config.get("sync_enabled")),
+            "interval_value": interval_value,
+            "interval_unit": interval_unit,
+            "last_run_at": config.get("last_run_at"),
+            "updated_at": config.get("updated_at", "-"),
+        })
+
+    data["source_sync_configs"] = cleaned_configs
+    write_data(data)
+
+    return {
+        "status": "success",
+        "count": len(cleaned_configs),
+    }

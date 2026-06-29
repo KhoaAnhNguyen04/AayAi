@@ -390,5 +390,31 @@
         }
       ]
     }
+  ],
+  "source_sync_configs": [
+    {
+      "source_id": 1,
+      "sync_enabled": true,
+      "interval_value": 6,
+      "interval_unit": "hours",
+      "last_run_at": "2026-06-26T09:15:00",
+      "updated_at": "26 Jun 09:15"
+    },
+    {
+      "source_id": 2,
+      "sync_enabled": true,
+      "interval_value": 30,
+      "interval_unit": "minutes",
+      "last_run_at": null,
+      "updated_at": "26 Jun 09:30"
+    },
+    {
+      "source_id": 3,
+      "sync_enabled": false,
+      "interval_value": 12,
+      "interval_unit": "hours",
+      "last_run_at": "2026-06-25T22:10:00",
+      "updated_at": "26 Jun 09:35"
+    }
   ]
 }
