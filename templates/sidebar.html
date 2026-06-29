@@ -1,3 +1,8 @@
+{% set active_class = "flex items-center gap-3 px-4 py-3 text-sm font-medium
+rounded-lg bg-blue-50 text-blue-700 border border-blue-200 transition" %} {% set
+normal_class = "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg
+text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group" %}
+
 <aside
   class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0"
 >
@@ -9,37 +14,45 @@
   </div>
 
   <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
-    <a
-      href="#"
-      class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group"
-    >
+    <a href="#" class="{{ normal_class }}">
       <i
         data-lucide="bar-chart-3"
         class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition"
       ></i>
       Statistic
     </a>
+
     <a
-      href="#"
-      class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg bg-blue-50 text-blue-700 border border-blue-200 transition"
+      href="/config"
+      class="{{ active_class if request.url.path == '/config' else normal_class }}"
     >
-      <i data-lucide="database" class="w-4 h-4 text-blue-600"></i>
+      <i
+        data-lucide="database"
+        class="w-4 h-4 {% if request.url.path == '/config' %}text-blue-600{% else %}text-slate-400 group-hover:text-slate-600{% endif %} transition"
+      ></i>
       Data Sources
     </a>
+
     <a
-      href="#"
-      class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group"
+      href="/duplicates"
+      class="{{ active_class if request.url.path == '/duplicates' else normal_class }}"
     >
+      <i
+        data-lucide="copy-check"
+        class="w-4 h-4 {% if request.url.path == '/duplicates' %}text-blue-600{% else %}text-slate-400 group-hover:text-slate-600{% endif %} transition"
+      ></i>
+      Duplicate Documents
+    </a>
+
+    <a href="#" class="{{ normal_class }}">
       <i
         data-lucide="file-text"
         class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition"
       ></i>
       Document Source
     </a>
-    <a
-      href="#"
-      class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition group"
-    >
+
+    <a href="#" class="{{ normal_class }}">
       <i
         data-lucide="clock"
         class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition"

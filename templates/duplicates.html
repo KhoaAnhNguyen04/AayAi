@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Duplicate Documents</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body
+    class="bg-slate-50 text-slate-800 font-sans h-screen flex overflow-hidden"
+  >
+    {% include 'sidebar.html' %}
+
+    <main class="flex-1 flex flex-col overflow-y-auto bg-slate-50">
+      <div class="p-8 max-w-7xl mx-auto w-full space-y-8">
+        <div
+          class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4"
+        >
+          <div>
+            <h2 class="text-2xl font-semibold text-slate-900">
+              Duplicate Documents
+            </h2>
+            <p class="text-sm text-slate-500 mt-1">
+              Theo dõi các nhóm tài liệu trùng lặp, file đang được giữ và file
+              có thể cleanup.
+            </p>
+          </div>
+
+          <a
+            href="/config"
+            class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            Back to Data Sources
+          </a>
+        </div>
+
+        <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div
+            class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm"
+          >
+            <div class="text-sm text-slate-500">Duplicate Groups</div>
+            <div
+              id="duplicateTotalGroups"
+              class="text-3xl font-semibold text-slate-900 mt-2"
+            >
+              0
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm"
+          >
+            <div class="text-sm text-slate-500">Total Files</div>
+            <div
+              id="duplicateTotalFiles"
+              class="text-3xl font-semibold text-slate-900 mt-2"
+            >
+              0
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm"
+          >
+            <div class="text-sm text-slate-500">Current Files</div>
+            <div
+              id="duplicateCurrentFiles"
+              class="text-3xl font-semibold text-blue-600 mt-2"
+            >
+              0
+            </div>
+          </div>
+
+          <div
+            class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm"
+          >
+            <div class="text-sm text-slate-500">Archived Files</div>
+            <div
+              id="duplicateArchivedFiles"
+              class="text-3xl font-semibold text-slate-500 mt-2"
+            >
+              0
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden"
+        >
+          <div class="p-5 border-b border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="relative">
+                <i
+                  data-lucide="search"
+                  class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"
+                ></i>
+                <input
+                  id="duplicateSearchInput"
+                  type="text"
+                  placeholder="Search file name, path, fingerprint..."
+                  class="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                />
+              </div>
+
+              <select
+                id="duplicateFilterSource"
+                class="px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              >
+                <option value="">Tất cả Source</option>
+              </select>
+
+              <select
+                id="duplicateFilterStatus"
+                class="px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              >
+                <option value="">Tất cả Status</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead
+                class="bg-slate-50 border-b border-slate-200 text-slate-500"
+              >
+                <tr>
+                  <th class="px-6 py-3 font-medium">Duplicate Group</th>
+                  <th class="px-6 py-3 font-medium">File đang giữ</th>
+                  <th class="px-6 py-3 font-medium">Duplicate Files</th>
+                  <th class="px-6 py-3 font-medium">Fingerprint</th>
+                  <th class="px-6 py-3 font-medium">Status</th>
+                  <th class="px-6 py-3 font-medium">Action</th>
+                </tr>
+              </thead>
+
+              <tbody
+                id="duplicateTableBody"
+                class="divide-y divide-slate-100"
+              ></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/static/app.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>

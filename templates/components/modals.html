@@ -1,0 +1,173 @@
+<div
+  id="deleteModal"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 backdrop-blur-sm transition-opacity duration-200"
+>
+  <div
+    id="deleteModalContent"
+    class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 transform transition-all scale-95 opacity-0 duration-200"
+  >
+    <div class="flex items-center gap-3 mb-4">
+      <div
+        class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0"
+      >
+        <i data-lucide="alert-triangle" class="w-5 h-5 text-red-600"></i>
+      </div>
+      <h3 class="text-lg font-semibold text-slate-900">Xác nhận xoá dữ liệu</h3>
+    </div>
+    <p class="text-slate-600 text-sm mb-6" id="deleteModalText">
+      Bạn có chắc chắn muốn xoá vĩnh viễn nguồn dữ liệu này không? Hành động này
+      không thể hoàn tác.
+    </p>
+    <div class="flex justify-end gap-3">
+      <button
+        onclick="window.app.hideDeleteModal()"
+        class="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+      >
+        Hủy bỏ
+      </button>
+      <button
+        onclick="window.app.confirmDelete()"
+        class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+      >
+        Xoá vĩnh viễn
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  id="editModal"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 backdrop-blur-sm transition-opacity duration-200"
+>
+  <div
+    id="editModalContent"
+    class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 transform transition-all scale-95 opacity-0 duration-200"
+  >
+    <div class="flex items-center gap-3 mb-4">
+      <div
+        class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0"
+      >
+        <i data-lucide="edit-3" class="w-5 h-5 text-blue-600"></i>
+      </div>
+      <h3 class="text-lg font-semibold text-slate-900">Chỉnh sửa Folder</h3>
+    </div>
+    <div class="mb-6">
+      <label
+        for="editFolderInput"
+        class="block text-sm font-medium text-slate-700 mb-2"
+        id="editModalText"
+        >Nhập tên Folder mới cho nguồn dữ liệu:</label
+      >
+      <input
+        type="text"
+        id="editFolderInput"
+        class="w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 sm:text-sm"
+        placeholder="Ví dụ: Data_2024"
+      />
+    </div>
+    <div class="flex justify-end gap-3">
+      <button
+        onclick="window.app.hideEditModal()"
+        class="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+      >
+        Hủy bỏ
+      </button>
+      <button
+        onclick="window.app.confirmEdit()"
+        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+      >
+        Lưu thay đổi
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  id="stopSyncModal"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 backdrop-blur-sm transition-opacity duration-200"
+>
+  <div
+    id="stopSyncModalContent"
+    class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 transform transition-all scale-95 opacity-0 duration-200"
+  >
+    <div class="flex items-center gap-3 mb-4">
+      <div
+        class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0"
+      >
+        <i data-lucide="pause-circle" class="w-5 h-5 text-amber-600"></i>
+      </div>
+      <h3 class="text-lg font-semibold text-slate-900">Ngừng đồng bộ</h3>
+    </div>
+    <p class="text-slate-600 text-sm mb-6" id="stopSyncModalText">
+      Bạn có chắc chắn muốn ngừng đồng bộ nguồn dữ liệu này không?
+    </p>
+    <div class="flex justify-end gap-3">
+      <button
+        onclick="window.app.hideStopSyncModal()"
+        class="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+      >
+        Hủy bỏ
+      </button>
+      <button
+        onclick="window.app.confirmStopSync()"
+        class="px-4 py-2 text-sm font-medium text-white bg-amber-500 hover:bg-amber-600 rounded-lg transition-colors"
+      >
+        Ngừng đồng bộ
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  id="createModal"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 backdrop-blur-sm transition-opacity duration-200"
+>
+  <div
+    id="createModalContent"
+    class="bg-white rounded-xl shadow-xl w-full max-w-md p-6 transform transition-all scale-95 opacity-0 duration-200"
+  >
+    <div class="flex items-center gap-3 mb-4">
+      <div
+        class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0"
+      >
+        <i data-lucide="plus-circle" class="w-5 h-5 text-blue-600"></i>
+      </div>
+      <h3 class="text-lg font-semibold text-slate-900">Thêm nguồn dữ liệu</h3>
+    </div>
+    <div class="mb-5">
+      <label
+        for="createUrlInput"
+        class="block text-sm font-medium text-slate-700 mb-2"
+        >Đường dẫn URL của Knowledge Source:</label
+      >
+      <input
+        type="text"
+        id="createUrlInput"
+        class="w-full px-3 py-2 border border-slate-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 sm:text-sm placeholder-slate-400"
+        placeholder="https://drive.google.com/drive/folders/..."
+      />
+
+      <div
+        id="createModalError"
+        class="mt-2 text-xs text-rose-600 flex items-center gap-1 hidden"
+      >
+        <i data-lucide="alert-circle" class="w-3.5 h-3.5 flex-shrink-0"></i>
+        <span id="createErrorText"></span>
+      </div>
+    </div>
+    <div class="flex justify-end gap-3">
+      <button
+        onclick="window.app.hideCreateModal()"
+        class="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+      >
+        Hủy bỏ
+      </button>
+      <button
+        onclick="window.app.confirmCreate()"
+        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+      >
+        Xác nhận thêm
+      </button>
+    </div>
+  </div>
+</div>
